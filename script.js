@@ -131,6 +131,9 @@ const menuBtn = document.querySelector(".header-responsive-menu-btn");
 const responsiveMenu = document.querySelector(".r-menu");
 const responsiveMenuItems = document.querySelectorAll(".res-menu-item");
 
+const body = document.body;
+const progressBar = document.querySelector(".header-progress-bar");
+
 showItems = () => {
   if (responsiveMenu.classList.contains("active")) {
     responsiveMenu.classList.remove("active");
@@ -162,6 +165,17 @@ resetLinks = () => {
 onScroll = () => {
   const currentPosition = pageYOffset;
 
+  // progress bar
+  let pagesHeight = body.getBoundingClientRect().height;
+  let aboutsHeight = aboutDiv.getBoundingClientRect().height;
+  pagesHeight -= aboutsHeight;
+
+  let scrollHeight = currentPosition;
+  let progress = (scrollHeight * 100) / pagesHeight;
+
+  progressBar.style.width = `${progress}%`;
+
+  // fixed header
   if (currentPosition >= headerHeight - 10) {
     header.classList.add("fixed-header");
     container.style.marginTop = `${headerHeight}px`;
@@ -291,9 +305,13 @@ switchTo = (mode) => {
   if (mode == "dark") {
     document.body.classList.add("dark");
     switchBtn.innerHTML = "<i class='fas fa-moon'></i>";
+    switchBtn2.innerHTML =
+      "<div class='res-item-text'><i class='fas fa-moon'></i></div>";
   } else {
     document.body.classList.remove("dark");
     switchBtn.innerHTML = "<i class='fas fa-sun'></i>";
+    switchBtn2.innerHTML =
+      "<div class='res-item-text'><i class='fas fa-sun'></i></div>";
   }
 };
 
@@ -308,3 +326,32 @@ switchTo(mode);
 
 switchBtn.addEventListener("click", switchMode);
 switchBtn2.addEventListener("click", switchMode);
+
+// set theme to devices theme
+let isModeDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", () => {
+    isModeDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (isModeDark) {
+      mode = "dark";
+
+      switchTo(mode);
+    } else {
+      mode = "light";
+
+      switchTo(mode);
+    }
+  });
+
+if (isModeDark && !localStorage.getItem("theme")) {
+  mode = "dark";
+
+  switchTo(mode);
+} else if (!isModeDark) {
+  mode = "light";
+
+  switchTo(mode);
+}

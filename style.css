@@ -37,6 +37,11 @@
   --lightPink: rgb(235, 80, 90);
 }
 
+img[alt="www.000webhost.com"] {
+  width: 0;
+  height: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -729,4 +734,35 @@ a {
     padding-right: 0;
     height: 30vh;
   }
+}
+
+@media only screen and (min-width: 701px) {
+  .r-menu {
+    display: none;
+  }
+}
+
+@keyframes animation {
+  0% {
+    margin-top: 20vh;
+  }
+
+  100% {
+    margin-top: 0;
+  }
+}
+
+.founder-text {
+  font-weight: 300;
+}
+
+/* header progress bar */
+.header-progress-bar {
+  width: 0%;
+  height: 1px;
+  background-color: var(--lightBlue);
+}
+
+.dark .header-progress-bar {
+  background-color: var(--blue);
 }
